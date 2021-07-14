@@ -45,7 +45,7 @@
   "homepage": "https://github.com/jarcodallo/nestjs-matic/blob/main/README.md",
   "bugs": "https://github.com/jarcodallo/nestjs-matic/issues",
   "dependencies": {
-    "@maticnetwork/maticjs": "2.0.43"
+    "@maticnetwork/maticjs": "2.0.44"
   },
   "devDependencies": {
     "@nestjs/common": "^8.0.2",
