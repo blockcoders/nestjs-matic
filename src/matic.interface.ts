@@ -1,37 +1,23 @@
-export interface InfuraProviderOptions {
-  projectId?: string;
-  projectSecret?: string;
-}
+import { HttpProvider } from 'web3-providers-http';
+import WalletConnectProvider from '@walletconnect/ethereum-provider';
+import { ModuleMetadata } from '@nestjs/common/interfaces';
 
-export interface AlchemyProviderOptions {
-  apiKey?: string; // Or apiUrl
-}
-
-export interface AnkrProviderOptions {
-  projectUsername?: string;
-  projectPassword?: string;
-}
-
-export interface Network {
-  network: string;
-  version: string;
-  maticProvider: string;
-  parentProvider: string;
-  parentDefaultOptions: {
-    from: Record<string, any>;
-  };
-  maticDefaultOptions: {
-    from: Record<string, any>;
-  };
+export declare interface DefaultOptions {
+  from?: string;
 }
 
 export interface MaticModuleOptions extends Record<string, any> {
-  network?: Network | string;
-  alchemy?: AlchemyProviderOptions | string;
-  chainstack?: string;
-  maticVigil?: string;
-  quickNode?: string;
-  infura?: InfuraProviderOptions | string;
-  ankr?: AnkrProviderOptions | string;
-  useDefaultProvider?: boolean;
+  network: string;
+  version: string;
+  maticProvider: string | HttpProvider | WalletConnectProvider;
+  parentProvider: string | HttpProvider | WalletConnectProvider;
+  parentDefaultOptions: any | DefaultOptions;
+  maticDefaultOptions: any | DefaultOptions;
+}
+export interface MaticModuleAsyncOptions
+  extends Pick<ModuleMetadata, 'imports' | 'providers'> {
+  useFactory: (
+    ...args: any[]
+  ) => MaticModuleOptions | Promise<MaticModuleOptions>;
+  inject?: any[];
 }
