@@ -45,7 +45,9 @@
   "homepage": "https://github.com/jarcodallo/nestjs-matic/blob/main/README.md",
   "bugs": "https://github.com/jarcodallo/nestjs-matic/issues",
   "dependencies": {
-    "@maticnetwork/maticjs": "2.0.45"
+    "@maticnetwork/maticjs": "2.0.45",
+    "@walletconnect/ethereum-provider": "^1.5.4",
+    "web3-providers-http": "^1.5.1"
   },
   "devDependencies": {
     "@nestjs/common": "^8.0.6",
