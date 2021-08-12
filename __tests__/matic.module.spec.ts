@@ -61,6 +61,43 @@ describe('Matic Module Initialization', () => {
           await app.close();
         });
       });
+
+      describe('forRootAsync', () => {
+        it('should compile properly with useFactory', async () => {
+          @Controller('/')
+          class TestController {
+            @Get()
+            async get(): Promise<string> {
+              return 'test';
+            }
+          }
+
+          @Module({
+            imports: [MaticModule.forRootAsync()],
+            controllers: [TestController],
+          })
+          class TestModule {}
+
+          const app = await NestFactory.create(
+            TestModule,
+            new PlatformAdapter(),
+            { logger: false },
+          );
+          const server = app.getHttpServer();
+
+          await app.init();
+          await extraWait(PlatformAdapter, app);
+
+          await request(server)
+            .get('/')
+            .expect(200)
+            .expect((res) => {
+              expect(res.text).toBe('test');
+            });
+
+          await app.close();
+        });
+      });
     });
   }
 });
