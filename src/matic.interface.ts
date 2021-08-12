@@ -1,18 +1,14 @@
 import { HttpProvider } from 'web3-providers-http';
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
 import { ModuleMetadata } from '@nestjs/common/interfaces';
-
-export declare interface DefaultOptions {
-  from?: string;
-}
-
+import { SendOptions } from '@maticnetwork/maticjs/dist/ts/types/Common';
 export interface MaticModuleOptions extends Record<string, any> {
   network: string;
   version: string;
   maticProvider: string | HttpProvider | WalletConnectProvider;
   parentProvider: string | HttpProvider | WalletConnectProvider;
-  parentDefaultOptions: any | DefaultOptions;
-  maticDefaultOptions: any | DefaultOptions;
+  parentDefaultOptions: SendOptions;
+  maticDefaultOptions: SendOptions;
 }
 export interface MaticModuleAsyncOptions
   extends Pick<ModuleMetadata, 'imports' | 'providers'> {
@@ -20,4 +16,9 @@ export interface MaticModuleAsyncOptions
     ...args: any[]
   ) => MaticModuleOptions | Promise<MaticModuleOptions>;
   inject?: any[];
+}
+
+export enum MaticClients {
+  Plasma = 'Plasma',
+  PoS = 'PoS',
 }
