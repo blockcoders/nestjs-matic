@@ -23,6 +23,10 @@
     "report": "cat ./coverage/lcov.info | coveralls",
     "prepublishOnly": "npm run lint:ci && npm run test"
   },
+  "precommit": [
+    "lint:ci",
+    "test:cov"
+  ],
   "keywords": [
     "matic",
     "matic.js",
@@ -67,6 +71,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "jest": "^27.0.6",
     "nock": "^13.1.1",
+    "pre-commit": "^1.2.2",
     "prettier": "^2.3.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.3.0",
@@ -95,14 +100,6 @@
     "coveragePathIgnorePatterns": [
       "src/index.ts"
     ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 50,
-        "functions": 70,
-        "lines": 70,
-        "statements": 85
-      }
-    },
     "testEnvironment": "node"
   }
 }
