@@ -9,6 +9,7 @@ export interface MaticModuleOptions extends Record<string, any> {
   parentProvider: string | HttpProvider | WalletConnectProvider;
   parentDefaultOptions: SendOptions;
   maticDefaultOptions: SendOptions;
+  maticClient: MaticClients;
 }
 export interface MaticModuleAsyncOptions
   extends Pick<ModuleMetadata, 'imports' | 'providers'> {
