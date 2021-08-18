@@ -47,7 +47,7 @@
   "dependencies": {
     "@maticnetwork/maticjs": "2.0.45",
     "@walletconnect/ethereum-provider": "^1.5.4",
-    "web3-providers-http": "^1.5.1"
+    "web3-providers-http": "^4.0.0-alpha.0"
   },
   "devDependencies": {
     "@nestjs/common": "^8.0.6",

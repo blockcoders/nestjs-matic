@@ -168,7 +168,7 @@ describe('Matic Module Initialization', () => {
           @Module({
             imports: [
               MaticModule.forRootAsync({
-                imports: [ConfigService],
+                providers: [ConfigService],
                 inject: [ConfigService],
                 useFactory: (config: ConfigService) => {
                   return {
@@ -243,7 +243,7 @@ describe('Matic Module Initialization', () => {
           @Module({
             imports: [
               MaticModule.forRootAsync({
-                imports: [ConfigService],
+                providers: [ConfigService],
                 inject: [ConfigService],
                 useFactory: (config: ConfigService) => {
                   return {

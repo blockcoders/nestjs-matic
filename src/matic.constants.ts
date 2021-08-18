@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import { MaticModuleOptions, MaticClients } from './matic.interface';
-import { HttpProvider } from 'web3-providers-http';
+import Web3HttpProvider from 'web3-providers-http';
 
 export const DECORATED_PREFIX = 'MaticJS';
 export const MATIC_PROVIDER_NAME = 'MaticProviderName';
@@ -19,7 +19,10 @@ export const TEST_ADDRESS = randomBytes(42).toString('hex');
 export const TEST_TOKEN = randomBytes(42).toString('hex');
 export const TEST_BALANCE = '1000000000000000000';
 export const TEST_MATICVIGIL_API_KEY = randomBytes(40).toString('hex');
-const httpProvider = new HttpProvider('http://localhost:3000', {});
+const httpProvider = new Web3HttpProvider({
+  providerUrl: 'http://localhost:3000',
+});
+console.log(httpProvider);
 
 export const OPTIONS_PLASMA: MaticModuleOptions = {
   network: 'testnet',
