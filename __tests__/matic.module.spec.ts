@@ -7,12 +7,14 @@ import { platforms } from './utils/platforms';
 import { extraWait } from './utils/extraWait';
 import { MaticClients } from '../src/matic.interface';
 import {
-  MAINNET_NETWORK,
   TEST_ADDRESS,
   TEST_TOKEN,
   TEST_BALANCE,
   OPTIONS_PLASMA,
   OPTIONS_POS,
+  INFURA_BODY,
+  INFURA_RESPONSE,
+  INFURA_MUMBAI_RPC,
   parentProvider,
   childProvider,
 } from './utils/constants';
@@ -37,11 +39,11 @@ describe('Matic Module Initialization', () => {
 
   for (const PlatformAdapter of platforms) {
     describe(PlatformAdapter.name, () => {
-      describe('forRoot', () => {
+      describe.only('forRoot', () => {
         it('should work with Plasma provider', async () => {
-          nock(MAINNET_NETWORK)
-            .post(`/${TEST_ADDRESS}`, OPTIONS_PLASMA)
-            .reply(200, TEST_BALANCE);
+          nock(INFURA_MUMBAI_RPC)
+            .post('/', INFURA_BODY)
+            .reply(200, INFURA_RESPONSE);
 
           @Controller('/')
           class TestController {
@@ -79,7 +81,6 @@ describe('Matic Module Initialization', () => {
             .get('/')
             .expect(200)
             .expect((res) => {
-              console.log(res);
               expect(res.body).toBeDefined();
               expect(res.body).toHaveProperty(
                 'accountBalance',
@@ -91,8 +92,8 @@ describe('Matic Module Initialization', () => {
         });
 
         it('should work with PoS provider', async () => {
-          nock(MAINNET_NETWORK)
-            .post(`/${TEST_ADDRESS}`, OPTIONS_POS)
+          nock(INFURA_MUMBAI_RPC)
+            .post('/', INFURA_BODY)
             .reply(200, TEST_BALANCE);
 
           @Controller('/')
@@ -130,7 +131,6 @@ describe('Matic Module Initialization', () => {
             .get('/')
             .expect(200)
             .expect((res) => {
-              console.log(res);
               expect(res.body).toBeDefined();
               expect(res.body).toHaveProperty(
                 'accountBalance',
