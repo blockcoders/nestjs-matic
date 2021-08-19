@@ -23,12 +23,17 @@ export class MaticCoreModule {
 
   static forRootAsync(options: MaticModuleAsyncOptions): DynamicModule {
     const maticProvider = createMaticAsyncProvider();
-    const asyncOptionsPrivader = createAsyncOptionsProvider(options);
+    const asyncOptionsProvader = createAsyncOptionsProvider(options);
     return {
       module: MaticCoreModule,
-      imports: [],
-      providers: [asyncOptionsPrivader, maticProvider, createProviderName()],
-      exports: [],
+      imports: options.imports,
+      providers: [
+        asyncOptionsProvader,
+        maticProvider,
+        createProviderName(),
+        ...(options.providers || []),
+      ],
+      exports: [maticProvider],
     };
   }
 }

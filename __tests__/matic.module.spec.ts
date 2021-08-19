@@ -11,10 +11,11 @@ import {
   TEST_ADDRESS,
   TEST_TOKEN,
   TEST_BALANCE,
-  TEST_MATICVIGIL_API_KEY,
   OPTIONS_PLASMA,
   OPTIONS_POS,
-} from '../src/matic.constants';
+  parentProvider,
+  childProvider,
+} from './utils/constants';
 import MaticPlasmaClient, { MaticPOSClient } from '@maticnetwork/maticjs';
 
 describe('Matic Module Initialization', () => {
@@ -39,7 +40,7 @@ describe('Matic Module Initialization', () => {
       describe('forRoot', () => {
         it('should work with Plasma provider', async () => {
           nock(MAINNET_NETWORK)
-            .post(`/${TEST_MATICVIGIL_API_KEY}`, OPTIONS_PLASMA)
+            .post(`/${TEST_ADDRESS}`, OPTIONS_PLASMA)
             .reply(200, TEST_BALANCE);
 
           @Controller('/')
@@ -78,6 +79,7 @@ describe('Matic Module Initialization', () => {
             .get('/')
             .expect(200)
             .expect((res) => {
+              console.log(res);
               expect(res.body).toBeDefined();
               expect(res.body).toHaveProperty(
                 'accountBalance',
@@ -89,7 +91,9 @@ describe('Matic Module Initialization', () => {
         });
 
         it('should work with PoS provider', async () => {
-          nock(MAINNET_NETWORK).post('/', OPTIONS_POS).reply(200, TEST_BALANCE);
+          nock(MAINNET_NETWORK)
+            .post(`/${TEST_ADDRESS}`, OPTIONS_POS)
+            .reply(200, TEST_BALANCE);
 
           @Controller('/')
           class TestController {
@@ -102,7 +106,6 @@ describe('Matic Module Initialization', () => {
               const balance: number = await this.maticProvider.balanceOfERC20(
                 TEST_ADDRESS,
                 TEST_TOKEN,
-                {},
               );
 
               return { accountBalance: balance.toString() };
@@ -127,6 +130,7 @@ describe('Matic Module Initialization', () => {
             .get('/')
             .expect(200)
             .expect((res) => {
+              console.log(res);
               expect(res.body).toBeDefined();
               expect(res.body).toHaveProperty(
                 'accountBalance',
@@ -160,9 +164,13 @@ describe('Matic Module Initialization', () => {
 
           @Injectable()
           class ConfigService {
+            public readonly network = 'testnet';
             public readonly version = 'mumbai';
-            public readonly maticProvider = '';
-            public readonly parentProvider = '';
+            public readonly maticProvider = childProvider;
+            public readonly parentProvider = parentProvider;
+            public readonly maticDefaultOptions = {
+              from: '0x97db0687B60f6B19253BCdAeA49288bd0e2842Ef',
+            };
           }
 
           @Module({
@@ -172,16 +180,12 @@ describe('Matic Module Initialization', () => {
                 inject: [ConfigService],
                 useFactory: (config: ConfigService) => {
                   return {
-                    network: MAINNET_NETWORK,
+                    network: config.network,
                     version: config.version,
                     maticProvider: config.maticProvider,
                     parentProvider: config.parentProvider,
-                    maticDefaultOptions: {
-                      from: '',
-                    },
-                    parentDefaultOptions: {
-                      from: '',
-                    },
+                    maticDefaultOptions: config.maticDefaultOptions,
+                    parentDefaultOptions: config.maticDefaultOptions,
                     maticClient: MaticClients.Plasma,
                   };
                 },
@@ -204,6 +208,7 @@ describe('Matic Module Initialization', () => {
             .get('/')
             .expect(200)
             .expect((res) => {
+              console.log(res);
               expect(res.body).toBeDefined();
               expect(res.body).toHaveProperty(
                 'accountBalance',
@@ -235,9 +240,13 @@ describe('Matic Module Initialization', () => {
 
           @Injectable()
           class ConfigService {
+            public readonly network = 'testnet';
             public readonly version = 'mumbai';
-            public readonly maticProvider = '';
-            public readonly parentProvider = '';
+            public readonly maticProvider = childProvider;
+            public readonly parentProvider = parentProvider;
+            public readonly maticDefaultOptions = {
+              from: '0x97db0687B60f6B19253BCdAeA49288bd0e2842Ef',
+            };
           }
 
           @Module({
@@ -247,16 +256,12 @@ describe('Matic Module Initialization', () => {
                 inject: [ConfigService],
                 useFactory: (config: ConfigService) => {
                   return {
-                    network: MAINNET_NETWORK,
+                    network: config.network,
                     version: config.version,
                     maticProvider: config.maticProvider,
                     parentProvider: config.parentProvider,
-                    maticDefaultOptions: {
-                      from: '',
-                    },
-                    parentDefaultOptions: {
-                      from: '',
-                    },
+                    maticDefaultOptions: config.maticDefaultOptions,
+                    parentDefaultOptions: config.maticDefaultOptions,
                     maticClient: MaticClients.PoS,
                   };
                 },
@@ -265,7 +270,6 @@ describe('Matic Module Initialization', () => {
             controllers: [TestController],
           })
           class TestModule {}
-
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
@@ -279,13 +283,13 @@ describe('Matic Module Initialization', () => {
             .get('/')
             .expect(200)
             .expect((res) => {
+              console.log(res);
               expect(res.body).toBeDefined();
               expect(res.body).toHaveProperty(
                 'accountBalance',
                 '1000000000000000000',
               );
             });
-
           await app.close();
         });
       });

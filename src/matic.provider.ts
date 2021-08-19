@@ -1,4 +1,5 @@
 import { Provider } from '@nestjs/common';
+import { defer, lastValueFrom } from 'rxjs';
 
 import { MaticModuleOptions, MaticModuleAsyncOptions } from './matic.interface';
 import { getMaticToken } from './matic.utils';
@@ -24,7 +25,7 @@ export function createMaticProvider(options: MaticModuleOptions): Provider {
   return {
     provide: getMaticToken(),
     useFactory: async (): Promise<SDKClient> => {
-      return await createBaseProvider(options);
+      return await lastValueFrom(defer(() => createBaseProvider(options)));
     },
   };
 }
@@ -33,7 +34,7 @@ export function createMaticAsyncProvider(): Provider {
   return {
     provide: getMaticToken(),
     useFactory: async (options: MaticModuleOptions): Promise<SDKClient> => {
-      return createBaseProvider(options);
+      return lastValueFrom(defer(() => createBaseProvider(options)));
     },
     inject: [MATIC_MODULE_OPTIONS],
   };
