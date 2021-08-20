@@ -45,9 +45,7 @@
   "homepage": "https://github.com/jarcodallo/nestjs-matic/blob/main/README.md",
   "bugs": "https://github.com/jarcodallo/nestjs-matic/issues",
   "dependencies": {
-    "@maticnetwork/maticjs": "2.0.45",
-    "@walletconnect/ethereum-provider": "^1.5.4",
-    "web3-providers-http": "^4.0.0-alpha.0"
+    "@maticnetwork/maticjs": "2.0.45"
   },
   "devDependencies": {
     "@nestjs/common": "^8.0.6",
@@ -76,7 +74,9 @@
     "ts-node": "^10.2.0",
     "tsc-watch": "^4.4.0",
     "tsconfig-paths": "^3.10.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "@walletconnect/ethereum-provider": "^1.5.4",
+    "web3-core": "^1.5.2"
   },
   "jest": {
     "testTimeout": 20000,

@@ -8,9 +8,7 @@ import {
 } from './matic.provider';
 
 @Global()
-@Module({
-  providers: [],
-})
+@Module({})
 export class MaticCoreModule {
   static forRoot(options: MaticModuleOptions): DynamicModule {
     const maticProvider = createMaticProvider(options);
