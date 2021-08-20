@@ -7,7 +7,6 @@ import {
 
 export const TEST_ADDRESS = '0x97db0687B60f6B19253BCdAeA49288bd0e2842Ef';
 export const TEST_TOKEN = '0x2d7882beDcbfDDce29Ba99965dd3cdF7fcB10A1e';
-export const TEST_BALANCE = '1000000000000000000';
 export const INFURA_MUMBAI_RPC =
   'https://polygon-mumbai.infura.io/v3/29de55fdba2c43aba41eaec8100275d3';
 export const TEST_API_KEY =
