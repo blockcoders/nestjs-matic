@@ -62,7 +62,11 @@ describe('InjectEthersProvider', () => {
         })
         class TestModule {}
 
-        const app = await NestFactory.create(TestModule, new PlatformAdapter());
+        const app = await NestFactory.create(
+          TestModule,
+          new PlatformAdapter(),
+          { logger: false },
+        );
         const server = app.getHttpServer();
 
         await app.init();
@@ -99,7 +103,11 @@ describe('InjectEthersProvider', () => {
         })
         class TestModule {}
 
-        const app = await NestFactory.create(TestModule, new PlatformAdapter());
+        const app = await NestFactory.create(
+          TestModule,
+          new PlatformAdapter(),
+          { logger: false },
+        );
         const server = app.getHttpServer();
 
         await app.init();
@@ -145,7 +153,11 @@ describe('InjectEthersProvider', () => {
         })
         class TestModule {}
 
-        const app = await NestFactory.create(TestModule, new PlatformAdapter());
+        const app = await NestFactory.create(
+          TestModule,
+          new PlatformAdapter(),
+          { logger: false },
+        );
         const server = app.getHttpServer();
 
         await app.init();
@@ -182,7 +194,11 @@ describe('InjectEthersProvider', () => {
         })
         class TestModule {}
 
-        const app = await NestFactory.create(TestModule, new PlatformAdapter());
+        const app = await NestFactory.create(
+          TestModule,
+          new PlatformAdapter(),
+          { logger: false },
+        );
         const server = app.getHttpServer();
 
         await app.init();
