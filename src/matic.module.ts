@@ -1,19 +1,19 @@
 import { Module, DynamicModule } from '@nestjs/common';
 import { MaticCoreModule } from './matic-core.module';
-
+import { MaticModuleOptions, MaticModuleAsyncOptions } from './matic.interface';
 @Module({})
 export class MaticModule {
-  static forRoot(): DynamicModule {
+  static forRoot(options: MaticModuleOptions): DynamicModule {
     return {
       module: MaticModule,
-      imports: [MaticCoreModule.forRoot()],
+      imports: [MaticCoreModule.forRoot(options)],
     };
   }
 
-  static forRootAsync(): DynamicModule {
+  static forRootAsync(options: MaticModuleAsyncOptions): DynamicModule {
     return {
       module: MaticModule,
-      imports: [MaticCoreModule.forRootAsync()],
+      imports: [MaticCoreModule.forRootAsync(options)],
     };
   }
 }
