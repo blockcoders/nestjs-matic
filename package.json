@@ -23,6 +23,10 @@
     "report": "cat ./coverage/lcov.info | coveralls",
     "prepublishOnly": "npm run lint:ci && npm run test"
   },
+  "precommit": [
+    "lint:ci",
+    "test:cov"
+  ],
   "keywords": [
     "matic",
     "matic.js",
@@ -96,6 +100,14 @@
     "coveragePathIgnorePatterns": [
       "src/index.ts"
     ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 70,
+        "lines": 70,
+        "statements": 85
+      }
+    },
     "testEnvironment": "node"
   }
 }
