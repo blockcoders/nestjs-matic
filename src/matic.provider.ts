@@ -1,11 +1,11 @@
 import { Provider } from '@nestjs/common';
 import { defer, lastValueFrom } from 'rxjs';
-
 import {
   MaticModuleOptions,
   MaticModuleAsyncOptions,
   MaticNetworks,
   MaticClients,
+  MaticVersions,
 } from './matic.interface';
 import { getMaticToken } from './matic.utils';
 import { MATIC_MODULE_OPTIONS, MATIC_PROVIDER_NAME } from './matic.constants';
@@ -17,11 +17,11 @@ async function createMaticClient(
 ): Promise<SDKClient> {
   const {
     network = MaticNetworks.Mainnet,
-    version,
+    version = MaticVersions.V1,
     maticProvider,
     parentProvider,
-    parentDefaultOptions,
-    maticDefaultOptions,
+    parentDefaultOptions = {},
+    maticDefaultOptions = {},
     maticClient = MaticClients.Plasma,
   } = options;
   const clientOptions = {
@@ -33,14 +33,14 @@ async function createMaticClient(
     maticDefaultOptions,
   };
 
-  if (maticClient === MaticClients.PoS) {
-    return await new MaticPOSClient(clientOptions);
+  if (maticClient === MaticClients.Plasma) {
+    const maticPlasmaClient = new MaticPlasmaClient(clientOptions);
+    await maticPlasmaClient.initialize();
+
+    return maticPlasmaClient;
   }
 
-  const maticPlasmaClient = new MaticPlasmaClient(clientOptions);
-  await maticPlasmaClient.initialize();
-
-  return maticPlasmaClient;
+  return new MaticPOSClient(clientOptions);
 }
 
 export function createMaticProvider(options: MaticModuleOptions): Provider {

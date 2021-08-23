@@ -2,13 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { Module, Controller, Get, Injectable } from '@nestjs/common';
 import * as request from 'supertest';
 import * as nock from 'nock';
-import { MaticModule, InjectMaticProvider } from '../src';
+import MaticPlasmaClient, { MaticPOSClient } from '@maticnetwork/maticjs';
 import { platforms } from './utils/platforms';
 import { extraWait } from './utils/extraWait';
-import MaticPlasmaClient, { MaticPOSClient } from '@maticnetwork/maticjs';
 import { OPTIONS_PLASMA, OPTIONS_POS } from './utils/constants';
+import { InjectMaticProvider } from '../src/matic.decorator';
+import { MaticModule } from '../src/matic.module';
 
-describe('InjectEthersProvider', () => {
+describe('InjectMaticProvider', () => {
   beforeEach(() => nock.cleanAll());
 
   beforeAll(() => {

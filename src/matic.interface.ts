@@ -1,7 +1,10 @@
 import { HttpProvider } from 'web3-core';
 import WalletConnectProvider from '@walletconnect/ethereum-provider';
 import { ModuleMetadata } from '@nestjs/common/interfaces';
-import { SendOptions } from '@maticnetwork/maticjs/dist/ts/types/Common';
+import {
+  MaticClientInitializationOptions,
+  SendOptions,
+} from '@maticnetwork/maticjs/dist/ts/types/Common';
 
 export enum MaticClients {
   Plasma = 'Plasma',
@@ -18,13 +21,27 @@ export enum MaticVersions {
   Mumbai = 'mumbai',
 }
 
-export interface MaticModuleOptions extends Record<string, any> {
-  network: MaticNetworks;
-  version: MaticVersions;
-  maticProvider: string | HttpProvider | WalletConnectProvider;
-  parentProvider: string | HttpProvider | WalletConnectProvider;
-  parentDefaultOptions: SendOptions;
-  maticDefaultOptions: SendOptions;
+/**
+ * Matic SDK Client options
+ * @see {@link https://github.com/maticnetwork/matic.js/blob/master/src/types/Common.ts#L25}
+ */
+export interface MaticModuleOptions
+  extends Omit<
+      MaticClientInitializationOptions,
+      | 'network'
+      | 'version'
+      | 'maticProvider'
+      | 'parentProvider'
+      | 'parentDefaultOptions'
+      | 'maticDefaultOptions'
+    >,
+    Record<string, any> {
+  network?: MaticNetworks;
+  version?: MaticVersions;
+  maticProvider?: string | HttpProvider | WalletConnectProvider;
+  parentProvider?: string | HttpProvider | WalletConnectProvider;
+  parentDefaultOptions?: SendOptions;
+  maticDefaultOptions?: SendOptions;
   maticClient?: MaticClients;
 }
 

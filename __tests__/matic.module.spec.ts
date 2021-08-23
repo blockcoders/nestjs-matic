@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { Module, Controller, Get, Injectable } from '@nestjs/common';
 import * as request from 'supertest';
 import * as nock from 'nock';
-import { MaticModule, InjectMaticProvider } from '../src';
+import MaticPlasmaClient, { MaticPOSClient } from '@maticnetwork/maticjs';
 import { platforms } from './utils/platforms';
 import { extraWait } from './utils/extraWait';
 import {
@@ -19,7 +19,8 @@ import {
   childProvider,
   defaultOptions,
 } from './utils/constants';
-import MaticPlasmaClient, { MaticPOSClient } from '@maticnetwork/maticjs';
+import { InjectMaticProvider } from '../src/matic.decorator';
+import { MaticModule } from '../src/matic.module';
 
 describe('Matic Module Initialization', () => {
   beforeEach(() => nock.cleanAll());
