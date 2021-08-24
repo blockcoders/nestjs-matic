@@ -16,7 +16,7 @@ npm i nestjs-matic
 
 ## Register module
 
-### Configuration
+### How to start
 
 Import the `MaticModule` to your module and pass in it through your matic object options, just like that:
 
