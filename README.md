@@ -16,7 +16,7 @@ npm i nestjs-matic
 
 ## Register module
 
-### Zero configuration
+### Configuration
 
 Import the `MaticModule` to your module and pass in it through your matic object options, just like that:
 
@@ -30,7 +30,7 @@ import { MaticModule } from 'nestjs-matic';
 class MyModule {}
 ```
 
-**NOTE:** we describe the [MATIC_OPTIONS](#configuration-params) down below.
+**NOTE:** By default, MaticModule will try to connect using the MaticPlama client. We describe the [MATIC_OPTIONS](#configuration-params) down below.
 
 ### Configuration params
 
@@ -80,7 +80,7 @@ interface MaticModuleOptions {
    * Optional parameter for parentDefaultOptions, must be a Matic
    * SendOptions type.
    * If no parentDefaultOptions is provided, empty object is used.
-   * @see {@link https://github.com/maticnetwork/matic.js/blob/241d83873bb02501dd01243cd43e31265bc6ba0c/src/types/Common.ts#L3}
+   * @see {@link https://github.com/maticnetwork/matic.js/blob/master/src/types/Common.ts#L3}
    */
   parentDefaultOptions?: SendOptions;
 
@@ -88,14 +88,14 @@ interface MaticModuleOptions {
    * Optional parameter for maticDefaultOptions, must be a Matic
    * SendOptions type.
    * If no parentDefaultOptions is provided, empty object is used.
-   * @see {@link https://github.com/maticnetwork/matic.js/blob/241d83873bb02501dd01243cd43e31265bc6ba0c/src/types/Common.ts#L3}
+   * @see {@link https://github.com/maticnetwork/matic.js/blob/master/src/types/Common.ts#L3}
    */
   maticDefaultOptions?: SendOptions;
 
   /**
    * Optional parameter for maticClient, must be a string.
    * Take 'Plasma' or 'PoS' as possible values.
-   * If no maticClient is provided, 'PoS" is used.
+   * If no maticClient is provided, 'Plasma" is used.
    */
   maticClient?: MaticClients;
 }
