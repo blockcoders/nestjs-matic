@@ -175,7 +175,7 @@ class TestModule {}
 ## Testing a class that uses @InjectMaticProvider
 
 This package exposes a `getMaticToken()` function that returns a prepared injection token based on the provided context.
-Using this token, you can easily provide a mock implementation of the [SDKClient](https://github.com/maticnetwork/matic.js/blob/57e94d1d9df0deec68b3ab71c4096799d1f6f032/src/common/SDKClient.ts) using any of the standard custom provider techniques, including useClass, useValue, and useFactory.
+Using this token, you can easily provide a mock implementation of the [SDKClient](https://github.com/maticnetwork/matic.js/blob/master/src/common/SDKClient.ts) using any of the standard custom provider techniques, including useClass, useValue, and useFactory.
 
 ```ts
 const module: TestingModule = await Test.createTestingModule({
@@ -199,8 +199,8 @@ Contributions welcome! See [Contributing](CONTRIBUTING.md).
 
 ## Authors
 
-**Jose Ramirez [Twitter](https://twitter.com/jarcodallo)**
-**Ana Riera [GitHub](https://github.com/AnnRiera)**
+- **Jose Ramirez [Twitter](https://twitter.com/jarcodallo)**
+- **Ana Riera [GitHub](https://github.com/AnnRiera)**
 
 ## License
 
