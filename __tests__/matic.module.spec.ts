@@ -58,7 +58,7 @@ describe('Matic Module Initialization', () => {
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
-            { logger: false },
+            // { logger: false },
           );
           const server = app.getHttpServer();
 
@@ -103,7 +103,7 @@ describe('Matic Module Initialization', () => {
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
-            { logger: false },
+            // { logger: false },
           );
           const server = app.getHttpServer();
 
@@ -148,7 +148,7 @@ describe('Matic Module Initialization', () => {
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
-            { logger: false },
+            // { logger: false },
           );
           const server = app.getHttpServer();
 
@@ -221,7 +221,7 @@ describe('Matic Module Initialization', () => {
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
-            { logger: false },
+            // { logger: false },
           );
           const server = app.getHttpServer();
 
@@ -291,7 +291,7 @@ describe('Matic Module Initialization', () => {
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
-            { logger: false },
+            // { logger: false },
           );
           const server = app.getHttpServer();
 
