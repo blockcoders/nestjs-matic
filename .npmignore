@@ -11,3 +11,4 @@ src/
 nest-cli.json
 tsconfig.build.json
 tsconfig.json
+.circleci/
