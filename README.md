@@ -66,7 +66,7 @@ interface MaticModuleOptions {
   maticProvider?: string | HttpProvider | WalletConnectProvider;
 
   /**
-   * Optional parameter for parentProvider, can be a string, a
+   * Required parameter for parentProvider, can be a string, a
    * HttpProvider object or a WalletConnectProvider object.
    * If no parentProvider is provided, empty object is used.
    * The parentProvider may also be a URL to connect to,
@@ -74,7 +74,7 @@ interface MaticModuleOptions {
    * @see {@link https://github.com/ChainSafe/web3.js/tree/1.x/packages/web3-core}
    * @see {@link https://www.npmjs.com/package/@walletconnect/ethereum-provider}
    */
-  parentProvider?: string | HttpProvider | WalletConnectProvider;
+  parentProvider: string | HttpProvider | WalletConnectProvider;
 
   /**
    * Optional parameter for parentDefaultOptions, must be a Matic
@@ -175,14 +175,14 @@ class TestModule {}
 ## Testing a class that uses @InjectMaticProvider
 
 This package exposes a `getMaticToken()` function that returns a prepared injection token based on the provided context.
-Using this token, you can easily provide a mock implementation of the [SDKClient](https://github.com/maticnetwork/matic.js/blob/57e94d1d9df0deec68b3ab71c4096799d1f6f032/src/common/SDKClient.ts) using any of the standard custom provider techniques, including useClass, useValue, and useFactory.
+Using this token, you can easily provide a mock implementation of the [SDKClient](https://github.com/maticnetwork/matic.js/blob/master/src/common/SDKClient.ts) using any of the standard custom provider techniques, including useClass, useValue, and useFactory.
 
 ```ts
 const module: TestingModule = await Test.createTestingModule({
   providers: [
     MyService,
     {
-      provide: getMaticToken(MyService.name),
+      provide: getMaticToken(),
       useValue: mockProvider,
     },
   ],
@@ -199,7 +199,7 @@ Contributions welcome! See [Contributing](CONTRIBUTING.md).
 
 ## Collaborators
 
-* [__Jose Ramirez__](https://github.com/jarcodallo), <https://twitter.com/jarcodallo>, <https://www.npmjs.com/~jarcodallo>
+* [__Jose Ramirez__](https://github.com/jarcodallo), [Twitter](https://twitter.com/jarcodallo), [NPM](https://www.npmjs.com/~jarcodallo)
 * [__Ana Riera__](https://github.com/AnnRiera)
 
 ## License
