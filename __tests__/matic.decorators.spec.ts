@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { Module, Controller, Get, Injectable } from '@nestjs/common';
 import * as request from 'supertest';
-import * as nock from 'nock';
 import MaticPlasmaClient, { MaticPOSClient } from '@maticnetwork/maticjs';
 import { platforms } from './utils/platforms';
 import { extraWait } from './utils/extraWait';
@@ -10,27 +9,6 @@ import { InjectMaticProvider } from '../src/matic.decorator';
 import { MaticModule } from '../src/matic.module';
 
 describe('InjectMaticProvider', () => {
-  beforeEach(() => nock.cleanAll());
-
-  beforeAll(() => {
-    if (!nock.isActive()) {
-      nock.activate();
-    }
-
-    // nock.recorder.rec();
-    nock.disableNetConnect();
-    nock.enableNetConnect(
-      (host) =>
-        host.includes('127.0.0.1') ||
-        host.includes('rpc.goerli.mudit.blog') ||
-        host.includes('rpc-mumbai.matic.today'),
-    );
-  });
-
-  afterAll(() => {
-    nock.restore();
-  });
-
   for (const PlatformAdapter of platforms) {
     describe(PlatformAdapter.name, () => {
       it('should inject matic Plasma client in a service successfully', async () => {

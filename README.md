@@ -197,10 +197,10 @@ See [Changelog](CHANGELOG.md) for more information.
 
 Contributions welcome! See [Contributing](CONTRIBUTING.md).
 
-## Authors
+## Collaborators
 
-**Jose Ramirez [Twitter](https://twitter.com/jarcodallo)**
-**Ana Riera [GitHub](https://github.com/AnnRiera)**
+* [__Jose Ramirez__](https://github.com/jarcodallo), <https://twitter.com/jarcodallo>, <https://www.npmjs.com/~jarcodallo>
+* [__Ana Riera__](https://github.com/AnnRiera)
 
 ## License
 

@@ -18,7 +18,7 @@ async function createMaticClient(
   const {
     network = MaticNetworks.Mainnet,
     version = MaticVersions.V1,
-    maticProvider,
+    maticProvider = null,
     parentProvider,
     parentDefaultOptions = {},
     maticDefaultOptions = {},
