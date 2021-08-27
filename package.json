@@ -1,8 +1,8 @@
 {
   "name": "nestjs-matic",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0",
   "description": "Matic chain utilities for NestJS based on maticjs",
-  "author": "Jose Ramirez <jarcodallo@gmail.com>",
+  "author": "Blockcoders Engineering <hello@blockcoders.io>",
   "license": "Apache",
   "readmeFilename": "README.md",
   "main": "dist/index.js",
@@ -45,10 +45,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jarcodallo/nestjs-matic"
+    "url": "https://github.com/blockcoders/nestjs-matic"
   },
-  "homepage": "https://github.com/jarcodallo/nestjs-matic/blob/main/README.md",
-  "bugs": "https://github.com/jarcodallo/nestjs-matic/issues",
+  "homepage": "https://github.com/blockcoders/nestjs-matic/blob/main/README.md",
+  "bugs": "https://github.com/blockcoders/nestjs-matic/issues",
   "dependencies": {
     "@maticnetwork/maticjs": "2.0.45"
   },
@@ -84,7 +84,7 @@
     "web3-core": "^1.5.2"
   },
   "jest": {
-    "testTimeout": 20000,
+    "testTimeout": 60000,
     "moduleFileExtensions": [
       "js",
       "json",
