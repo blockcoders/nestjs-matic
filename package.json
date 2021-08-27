@@ -16,10 +16,10 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "lint:ci": "eslint \"{src,apps,libs,test}/**/*.ts\"",
-    "test": "jest --verbose",
+    "test": "jest",
     "test:cache": "jest --clearCache",
     "test:watch": "jest --watch",
-    "test:cov": "jest --verbose --coverage",
+    "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "report": "cat ./coverage/lcov.info | coveralls",
     "prepublishOnly": "npm run lint:ci && npm run test"
@@ -84,7 +84,8 @@
     "web3-core": "^1.5.2"
   },
   "jest": {
-    "testTimeout": 60000,
+    "verbose": true,
+    "testTimeout": 20000,
     "moduleFileExtensions": [
       "js",
       "json",
@@ -103,7 +104,7 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 50,
+        "branches": 40,
         "functions": 70,
         "lines": 70,
         "statements": 85

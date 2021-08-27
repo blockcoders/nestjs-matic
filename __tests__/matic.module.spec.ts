@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { Module, Controller, Get, Injectable } from '@nestjs/common';
 import * as request from 'supertest';
+import * as nock from 'nock';
 import MaticPlasmaClient, { MaticPOSClient } from '@maticnetwork/maticjs';
 import { platforms } from './utils/platforms';
 import { extraWait } from './utils/extraWait';
@@ -20,8 +21,44 @@ import {
 } from './utils/constants';
 import { InjectMaticProvider } from '../src/matic.decorator';
 import { MaticModule } from '../src/matic.module';
+// import { writeFile } from 'fs';
 
 describe('Matic Module Initialization', () => {
+  beforeAll(() => {
+    if (!nock.isActive()) {
+      nock.activate();
+    }
+
+    // Load nock definitions
+    nock.load('./__tests__/matic.module.mock.json');
+
+    // Recording nock definitions
+    // nock.recorder.rec({
+    //   dont_print: true,
+    //   enable_reqheaders_recording: true,
+    //   output_objects: true,
+    // });
+    nock.disableNetConnect();
+    nock.enableNetConnect('127.0.0.1');
+  });
+
+  afterAll(() => {
+    // Generate nock definitions file
+    // const nockCallObjects = nock.recorder.play() as nock.Definition[];
+    // const result = nockCallObjects.filter((item) => {
+    //   return !item.scope.includes('127.0.0.1');
+    // });
+
+    // writeFile(
+    //   './__tests__/matic.module.mock.json',
+    //   JSON.stringify(result, null, 2),
+    //   () => ({}),
+    // );
+
+    nock.cleanAll();
+    nock.restore();
+  });
+
   for (const PlatformAdapter of platforms) {
     describe(PlatformAdapter.name, () => {
       describe('forRoot', () => {
@@ -58,7 +95,7 @@ describe('Matic Module Initialization', () => {
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
-            // { logger: false },
+            { logger: false },
           );
           const server = app.getHttpServer();
 
@@ -103,7 +140,7 @@ describe('Matic Module Initialization', () => {
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
-            // { logger: false },
+            { logger: false },
           );
           const server = app.getHttpServer();
 
@@ -148,7 +185,7 @@ describe('Matic Module Initialization', () => {
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
-            // { logger: false },
+            { logger: false },
           );
           const server = app.getHttpServer();
 
@@ -221,7 +258,7 @@ describe('Matic Module Initialization', () => {
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
-            // { logger: false },
+            { logger: false },
           );
           const server = app.getHttpServer();
 
@@ -291,7 +328,7 @@ describe('Matic Module Initialization', () => {
           const app = await NestFactory.create(
             TestModule,
             new PlatformAdapter(),
-            // { logger: false },
+            { logger: false },
           );
           const server = app.getHttpServer();
 

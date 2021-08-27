@@ -144,8 +144,8 @@ import { MaticClients, MaticNetworks, MaticVersions } from 'nestjs-matic/dist/ma
 class ConfigService {
   public readonly network = MaticNetworks.Testnet;
   public readonly version = MaticVersions.Mumbai;
-  public readonly maticProvider = childProvider;
-  public readonly parentProvider = parentProvider;
+  public readonly maticProvider = 'https://rpc-mumbai.matic.today';
+  public readonly parentProvider = 'https://rpc.goerli.mudit.blog';
   public readonly maticDefaultOptions = defaultOptions;
 }
 

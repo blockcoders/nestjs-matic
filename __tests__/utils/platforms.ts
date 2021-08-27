@@ -6,3 +6,4 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 export type Adapter = Type<AbstractHttpAdapter<any, any, any>>;
 
 export const platforms: Adapter[] = [ExpressAdapter, FastifyAdapter];
+// export const platforms: Adapter[] = [ExpressAdapter];

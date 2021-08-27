@@ -1,14 +1,51 @@
 import { NestFactory } from '@nestjs/core';
-import { Module, Controller, Get, Injectable } from '@nestjs/common';
+import { Injectable, Module, Controller, Get } from '@nestjs/common';
 import * as request from 'supertest';
+import * as nock from 'nock';
 import MaticPlasmaClient, { MaticPOSClient } from '@maticnetwork/maticjs';
 import { platforms } from './utils/platforms';
 import { extraWait } from './utils/extraWait';
 import { OPTIONS_PLASMA, OPTIONS_POS } from './utils/constants';
 import { InjectMaticProvider } from '../src/matic.decorator';
 import { MaticModule } from '../src/matic.module';
+// import { writeFile } from 'fs';
 
 describe('InjectMaticProvider', () => {
+  beforeAll(() => {
+    if (!nock.isActive()) {
+      nock.activate();
+    }
+
+    // Load nock definitions
+    nock.load('./__tests__/matic.decorators.mock.json');
+
+    // Recording nock definitions
+    // nock.recorder.rec({
+    //   dont_print: true,
+    //   enable_reqheaders_recording: true,
+    //   output_objects: true,
+    // });
+    nock.disableNetConnect();
+    nock.enableNetConnect('127.0.0.1');
+  });
+
+  afterAll(() => {
+    // Generate nock definitions file
+    // const nockCallObjects = nock.recorder.play() as nock.Definition[];
+    // const result = nockCallObjects.filter((item) => {
+    //   return !item.scope.includes('127.0.0.1');
+    // });
+
+    // writeFile(
+    //   './__tests__/matic.decorators.mock.json',
+    //   JSON.stringify(result, null, 2),
+    //   () => ({}),
+    // );
+
+    nock.cleanAll();
+    nock.restore();
+  });
+
   for (const PlatformAdapter of platforms) {
     describe(PlatformAdapter.name, () => {
       it('should inject matic Plasma client in a service successfully', async () => {

@@ -18,10 +18,10 @@ async function createMaticClient(
   const {
     network = MaticNetworks.Mainnet,
     version = MaticVersions.V1,
-    maticProvider = null,
+    maticProvider,
     parentProvider,
-    parentDefaultOptions = {},
-    maticDefaultOptions = {},
+    parentDefaultOptions,
+    maticDefaultOptions,
     maticClient = MaticClients.Plasma,
   } = options;
   const clientOptions = {
@@ -35,6 +35,8 @@ async function createMaticClient(
 
   if (maticClient === MaticClients.Plasma) {
     const maticPlasmaClient = new MaticPlasmaClient(clientOptions);
+
+    // Init withdraw and deposit contracts
     await maticPlasmaClient.initialize();
 
     return maticPlasmaClient;
