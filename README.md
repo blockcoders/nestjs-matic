@@ -66,7 +66,7 @@ interface MaticModuleOptions {
   maticProvider?: string | HttpProvider | WalletConnectProvider;
 
   /**
-   * Optional parameter for parentProvider, can be a string, a
+   * Required parameter for parentProvider, can be a string, a
    * HttpProvider object or a WalletConnectProvider object.
    * If no parentProvider is provided, empty object is used.
    * The parentProvider may also be a URL to connect to,
@@ -74,7 +74,7 @@ interface MaticModuleOptions {
    * @see {@link https://github.com/ChainSafe/web3.js/tree/1.x/packages/web3-core}
    * @see {@link https://www.npmjs.com/package/@walletconnect/ethereum-provider}
    */
-  parentProvider?: string | HttpProvider | WalletConnectProvider;
+  parentProvider: string | HttpProvider | WalletConnectProvider;
 
   /**
    * Optional parameter for parentDefaultOptions, must be a Matic
@@ -144,8 +144,8 @@ import { MaticClients, MaticNetworks, MaticVersions } from 'nestjs-matic/dist/ma
 class ConfigService {
   public readonly network = MaticNetworks.Testnet;
   public readonly version = MaticVersions.Mumbai;
-  public readonly maticProvider = childProvider;
-  public readonly parentProvider = parentProvider;
+  public readonly maticProvider = 'https://rpc-mumbai.matic.today';
+  public readonly parentProvider = 'https://rpc.goerli.mudit.blog';
   public readonly maticDefaultOptions = defaultOptions;
 }
 
@@ -182,7 +182,7 @@ const module: TestingModule = await Test.createTestingModule({
   providers: [
     MyService,
     {
-      provide: getMaticToken(MyService.name),
+      provide: getMaticToken(),
       useValue: mockProvider,
     },
   ],
@@ -197,10 +197,10 @@ See [Changelog](CHANGELOG.md) for more information.
 
 Contributions welcome! See [Contributing](CONTRIBUTING.md).
 
-## Authors
+## Collaborators
 
-- **Jose Ramirez [Twitter](https://twitter.com/jarcodallo)**
-- **Ana Riera [GitHub](https://github.com/AnnRiera)**
+- [**Jose Ramirez**](https://github.com/jarcodallo), [Twitter](https://twitter.com/jarcodallo), [NPM](https://www.npmjs.com/~jarcodallo)
+- [**Ana Riera**](https://github.com/AnnRiera)
 
 ## License
 

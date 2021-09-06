@@ -16,37 +16,103 @@ import {
   OPTIONS_PLASMA,
   OPTIONS_POS,
   parentProvider,
-  childProvider,
+  maticProvider,
   defaultOptions,
 } from './utils/constants';
 import { InjectMaticProvider } from '../src/matic.decorator';
 import { MaticModule } from '../src/matic.module';
+// import { writeFile } from 'fs';
 
 describe('Matic Module Initialization', () => {
-  beforeEach(() => nock.cleanAll());
-
   beforeAll(() => {
     if (!nock.isActive()) {
       nock.activate();
     }
 
-    // nock.recorder.rec();
+    // Load nock definitions
+    nock.load('./__tests__/matic.module.mock.json');
+
+    // Recording nock definitions
+    // nock.recorder.rec({
+    //   dont_print: true,
+    //   enable_reqheaders_recording: true,
+    //   output_objects: true,
+    // });
     nock.disableNetConnect();
-    nock.enableNetConnect(
-      (host) =>
-        host.includes('127.0.0.1') ||
-        host.includes('rpc.goerli.mudit.blog') ||
-        host.includes('rpc-mumbai.matic.today'),
-    );
+    nock.enableNetConnect('127.0.0.1');
   });
 
   afterAll(() => {
+    // Generate nock definitions file
+    // const nockCallObjects = nock.recorder.play() as nock.Definition[];
+    // const result = nockCallObjects.filter((item) => {
+    //   return !item.scope.includes('127.0.0.1');
+    // });
+
+    // writeFile(
+    //   './__tests__/matic.module.mock.json',
+    //   JSON.stringify(result, null, 2),
+    //   () => ({}),
+    // );
+
+    nock.cleanAll();
     nock.restore();
   });
 
   for (const PlatformAdapter of platforms) {
     describe(PlatformAdapter.name, () => {
       describe('forRoot', () => {
+        it('should compile with parentProvider option', async () => {
+          @Controller('/')
+          class TestController {
+            constructor(
+              @InjectMaticProvider()
+              private readonly maticProvider: MaticPlasmaClient,
+            ) {}
+            @Get()
+            async get() {
+              const balance: number = await this.maticProvider.balanceOfERC20(
+                TEST_ADDRESS,
+                TEST_TOKEN,
+                {},
+              );
+
+              return { balance };
+            }
+          }
+          @Module({
+            imports: [
+              MaticModule.forRoot({
+                network: MaticNetworks.Testnet,
+                version: MaticVersions.Mumbai,
+                parentProvider,
+              }),
+            ],
+            controllers: [TestController],
+          })
+          class TestModule {}
+
+          const app = await NestFactory.create(
+            TestModule,
+            new PlatformAdapter(),
+            { logger: false },
+          );
+          const server = app.getHttpServer();
+
+          await app.init();
+          await extraWait(PlatformAdapter, app);
+
+          await request(server)
+            .get('/')
+            .expect(200)
+            .expect((res) => {
+              expect(res.body).toBeDefined();
+              expect(res.body.balance).not.toBeNull();
+            });
+
+          await app.close();
+        });
+
         it('should work with Plasma provider', async () => {
           @Controller('/')
           class TestController {
@@ -162,7 +228,7 @@ describe('Matic Module Initialization', () => {
           class ConfigService {
             public readonly network = MaticNetworks.Testnet;
             public readonly version = MaticVersions.Mumbai;
-            public readonly maticProvider = childProvider;
+            public readonly maticProvider = maticProvider;
             public readonly parentProvider = parentProvider;
             public readonly maticDefaultOptions = defaultOptions;
           }
@@ -233,7 +299,7 @@ describe('Matic Module Initialization', () => {
           class ConfigService {
             public readonly network = MaticNetworks.Testnet;
             public readonly version = MaticVersions.Mumbai;
-            public readonly maticProvider = childProvider;
+            public readonly maticProvider = maticProvider;
             public readonly parentProvider = parentProvider;
             public readonly maticDefaultOptions = defaultOptions;
           }
