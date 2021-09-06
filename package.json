@@ -1,6 +1,6 @@
 {
   "name": "nestjs-matic",
-  "version": "0.1.0",
+  "version": "0.1.1-beta.1",
   "description": "Matic chain utilities for NestJS based on maticjs",
   "author": "Blockcoders Engineering <hello@blockcoders.io>",
   "license": "Apache",
