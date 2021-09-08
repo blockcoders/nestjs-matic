@@ -39,7 +39,7 @@ export interface MaticModuleOptions
   network?: MaticNetworks;
   version?: MaticVersions;
   maticProvider?: string | HttpProvider | WalletConnectProvider;
-  parentProvider?: string | HttpProvider | WalletConnectProvider;
+  parentProvider: string | HttpProvider | WalletConnectProvider;
   parentDefaultOptions?: SendOptions;
   maticDefaultOptions?: SendOptions;
   maticClient?: MaticClients;
