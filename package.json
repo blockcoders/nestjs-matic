@@ -22,7 +22,7 @@
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "report": "cat ./coverage/lcov.info | coveralls",
-    "prepublishOnly": "npm run lint:ci"
+    "prepublishOnly": "npm run lint:ci && npm run test"
   },
   "precommit": [
     "lint:ci",
