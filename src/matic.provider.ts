@@ -22,7 +22,7 @@ async function createMaticClient(
     parentProvider,
     parentDefaultOptions,
     maticDefaultOptions,
-    maticClient = MaticClients.Plasma,
+    maticClient = MaticClients.PoS,
   } = options;
   const clientOptions = {
     network,

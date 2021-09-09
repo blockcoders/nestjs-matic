@@ -1,5 +1,4 @@
-import { HttpProvider } from 'web3-core';
-import WalletConnectProvider from '@walletconnect/ethereum-provider';
+import { provider } from 'web3-core';
 import { ModuleMetadata } from '@nestjs/common/interfaces';
 import {
   MaticClientInitializationOptions,
@@ -38,8 +37,8 @@ export interface MaticModuleOptions
     Record<string, any> {
   network?: MaticNetworks;
   version?: MaticVersions;
-  maticProvider?: string | HttpProvider | WalletConnectProvider;
-  parentProvider: string | HttpProvider | WalletConnectProvider;
+  maticProvider?: provider;
+  parentProvider: provider;
   parentDefaultOptions?: SendOptions;
   maticDefaultOptions?: SendOptions;
   maticClient?: MaticClients;

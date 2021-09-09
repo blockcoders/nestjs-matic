@@ -16,25 +16,9 @@ npm i nestjs-matic
 
 ## Register module
 
-### How to start
-
-Import the `MaticModule` to your module and pass in it through your matic object options, just like that:
-
-```ts
-import { MaticModule } from 'nestjs-matic';
-
-@Module({
-  imports: [MaticModule.forRoot(MATIC_OPTIONS)],
-  ...
-})
-class MyModule {}
-```
-
-**NOTE:** By default, MaticModule will try to connect using the MaticPlama client. We describe the [MATIC_OPTIONS](#configuration-params) down below.
-
 ### Configuration params
 
-The options object (`MATIC_OPTIONS`) for `PoS` and `Plasma` Client has the same composition (according to the [Matic Official PoS Doc](https://maticnetwork.github.io/matic.js/docs/pos/initialize/#options) and [Matic Official Plasma Doc](https://maticnetwork.github.io/matic.js/docs/plasma/initialize#options)). _Your matic options object must have the following structure:_
+`nestjs-matic` can be configured with this options:
 
 ```ts
 interface MaticModuleOptions {
@@ -55,26 +39,19 @@ interface MaticModuleOptions {
   version?: MaticVersions;
 
   /**
-   * Optional parameter for maticProvider, can be a string, a
-   * HttpProvider object or a WalletConnectProvider object.
+   * Optional parameter for maticProvider, can be a web3-core provider.
    * If no maticProvider is provided, empty object is used
    * The maticProvider may also be a URL to connect to,
    * such as https://rpc-mumbai.matic.today
-   * @see {@link https://github.com/ChainSafe/web3.js/tree/1.x/packages/web3-core}
-   * @see {@link https://www.npmjs.com/package/@walletconnect/ethereum-provider}
+   * @see {@link https://github.com/ChainSafe/web3.js/blob/1.x/packages/web3-core/types/index.d.ts#L436}
    */
-  maticProvider?: string | HttpProvider | WalletConnectProvider;
+  maticProvider?: web3-core.provider;
 
   /**
-   * Required parameter for parentProvider, can be a string, a
-   * HttpProvider object or a WalletConnectProvider object.
-   * If no parentProvider is provided, empty object is used.
-   * The parentProvider may also be a URL to connect to,
-   * such as https://rpc.goerli.mudit.blog
-   * @see {@link https://github.com/ChainSafe/web3.js/tree/1.x/packages/web3-core}
-   * @see {@link https://www.npmjs.com/package/@walletconnect/ethereum-provider}
+   * Required parameter for parentProvider, can be a web3-core provider.
+   * @see {@link https://github.com/ChainSafe/web3.js/blob/1.x/packages/web3-core/types/index.d.ts#L436}
    */
-  parentProvider: string | HttpProvider | WalletConnectProvider;
+  parentProvider: web3-core.provider;
 
   /**
    * Optional parameter for parentDefaultOptions, must be a Matic
@@ -95,7 +72,7 @@ interface MaticModuleOptions {
   /**
    * Optional parameter for maticClient, must be a string.
    * Take 'Plasma' or 'PoS' as possible values.
-   * If no maticClient is provided, 'Plasma" is used.
+   * If no maticClient is provided, 'PoS" is used.
    */
   maticClient?: MaticClients;
 }
@@ -122,7 +99,7 @@ import { MaticClients, MaticNetworks, MaticVersions } from 'nestjs-matic/dist/ma
       maticDefaultOptions: {
         from: '0x54aff400858Dcac39797a81894D9920f16972D1D',
       },
-      maticClient: MaticClients.Plasma
+      maticClient: MaticClients.PoS
     })
   ],
   ...
@@ -132,7 +109,7 @@ class MyModule {}
 
 ### Asynchronous configuration
 
-`MaticModule.forRootAsync` allows you, for example, inject `ConfigService` to use it in Nest `useFactory` method.
+With `MaticModule.forRootAsync` allows you, for example, inject `ConfigService` to use it in Nest `useFactory` method.
 
 `useFactory` should return object with [Options interface](#configuration-params).
 
@@ -146,7 +123,56 @@ class ConfigService {
   public readonly version = MaticVersions.Mumbai;
   public readonly maticProvider = 'https://rpc-mumbai.matic.today';
   public readonly parentProvider = 'https://rpc.goerli.mudit.blog';
-  public readonly maticDefaultOptions = defaultOptions;
+  public readonly maticDefaultOptions = { from '0x....' };;
+}
+
+@Module({
+  providers: [ConfigService],
+  exports: [ConfigService]
+})
+class ConfigModule {}
+
+@Module({
+  imports: [
+    MaticModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => {
+        await somePromise();
+
+        return {
+          network: config.network,
+          version: config.version,
+          maticProvider: config.maticProvider,
+          parentProvider: config.parentProvider,
+          maticDefaultOptions: config.maticDefaultOptions,
+          parentDefaultOptions: config.maticDefaultOptions,
+          maticClient: MaticClients.PoS,
+        };
+      },
+    }),
+  ],
+  ...
+})
+class TestModule {}
+```
+
+Or you can just pass `ConfigService` to `providers`, if you don't have any `ConfigModule`:
+
+```ts
+import {
+  MaticModule,
+  MaticNetworks,
+  MaticVersions,
+} from 'nestjs-matic';
+
+@Injectable()
+class ConfigService {
+  public readonly network = MaticNetworks.Testnet;
+  public readonly version = MaticVersions.Mumbai;
+  public readonly maticProvider = 'https://rpc-mumbai.matic.today';
+  public readonly parentProvider = 'https://rpc.goerli.mudit.blog';
+  public readonly maticDefaultOptions = { from '0x....' };
 }
 
 @Module({
@@ -162,14 +188,38 @@ class ConfigService {
           parentProvider: config.parentProvider,
           maticDefaultOptions: config.maticDefaultOptions,
           parentDefaultOptions: config.maticDefaultOptions,
-          maticClient: MaticClients.Plasma,
+          maticClient: MaticClients.PoS,
         };
-      },
-    }),
+      }
+    })
   ],
-  ...
+  controllers: [TestController]
 })
-class TestModule {}
+class MyModule {}
+```
+
+## MaticClients
+
+-  `MaticPlasmaClient` implements standard [PlasmaClient](https://maticnetwork.github.io/matic.js/docs/plasma/initialize).
+-  `MaticPOSClient` implements standard [POSClient](https://maticnetwork.github.io/matic.js/docs/pos/initialize).
+
+If you are familiar with it, you are ready to go.
+
+```ts
+import { InjectMaticProvider, MaticPOSClient } from 'nestjs-matic';
+
+@Injectable()
+export class TestService {
+  constructor(
+    @InjectMaticProvider()
+    private readonly maticClient: MaticPOSClient,
+  ) {}
+  async someMethod(): Promise<{ nftBalance: string }> {
+    const nftBalance: number = await this.maticClient.balanceOfERC721('0x....', '0x....')
+
+    return { nftBalance: nftBalance.toString() };
+  }
+}
 ```
 
 ## Testing a class that uses @InjectMaticProvider
