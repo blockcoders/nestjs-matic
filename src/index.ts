@@ -12,5 +12,3 @@ export {
   default as MaticPlasmaClient,
   MaticPOSClient,
 } from '@maticnetwork/maticjs';
-export { HttpProvider as Web3HttpProvider } from 'web3-core';
-export { default as WalletConnectProvider } from '@walletconnect/ethereum-provider';

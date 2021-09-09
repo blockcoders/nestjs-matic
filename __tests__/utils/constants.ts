@@ -5,8 +5,8 @@ import {
   MaticVersions,
 } from '../../src/matic.interface';
 
-export const TEST_ADDRESS = '0x97db0687B60f6B19253BCdAeA49288bd0e2842Ef';
-export const TEST_TOKEN = '0x2d7882beDcbfDDce29Ba99965dd3cdF7fcB10A1e';
+export const TEST_ADDRESS = '0x8620c1E7107780622F403A4f70a15d91f2E6Ba36';
+export const TEST_TOKEN = '0x0000000000000000000000000000000000001010';
 export const parentProvider = 'https://rpc.goerli.mudit.blog';
 export const maticProvider = 'https://rpc-mumbai.matic.today';
 export const defaultOptions = {
